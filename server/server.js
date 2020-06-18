@@ -11,9 +11,9 @@ const app = express();
 // Connect Database MongoDB Atlas
 connectDB();
 
-const { User } = require('./models/user');
-const { Book } = require('./models/book');
-const { Router } = require('express');
+// const { User } = require('./models/user');
+// const { Book } = require('./models/book');
+// const { Router } = require('express');
 
 // INIT Middleware
 app.use(bodyParser.json());
@@ -24,8 +24,15 @@ app.use(
   })
 );
 
-// Routes:
+// Routes/ API End-points:
+
+// CRUD for Book Model
 app.use('/api/book', require('./routes/api/book'));
+app.use('/api/books', require('./routes/api/book'));
+
+// CRUD for User Model
+app.use('/api/user', require('./routes/api/user'));
+app.use('/api/users', require('./routes/api/user'));
 
 const port = process.env.PORT || 3001;
 

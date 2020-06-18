@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Book = require('../../models/book');
 
-// @route   Get api/book/:id
+// @route   Get /api/book/:id = Eg: /api/book/5eead67b15a2cd314fa572a1
 // @desc    Get a book by Id
 // @access  Public/Private
 router.get('/:id', (req, res) => {
@@ -14,11 +14,11 @@ router.get('/:id', (req, res) => {
   });
 });
 
-// @route   Get api/book/all
+// @route   Get /api/books
 // @desc    Get a book by Id
 // @access  Public/Private
-router.get('/all', (req, res) => {
-  // locahost:3001/api/book/all?skip=3&limit=2&order=asc
+router.get('/', (req, res) => {
+  // locahost:3001/api/books?skip=0&limit=5&order=asc
   let skip = parseInt(req.query.skip);
   let limit = parseInt(req.query.limit);
   let order = req.query.order;
@@ -34,7 +34,7 @@ router.get('/all', (req, res) => {
     });
 });
 
-// @route   POST api/book
+// @route   POST /api/book
 // @desc    POST a book
 // @access  Public/Private
 router.post('/', (req, res) => {
@@ -50,7 +50,7 @@ router.post('/', (req, res) => {
   });
 });
 
-// @route   UPDATE api/book/update
+// @route   POST /api/book/update
 // @desc    UPDATE a book
 // @access  Public/Private
 router.post('/update', (req, res) => {
@@ -69,7 +69,7 @@ router.post('/update', (req, res) => {
   );
 });
 
-// @route   DELETE api/book/:id
+// @route   DELETE /api/book/:id
 // @desc    DELETE a book
 // @access  Public/Private
 router.delete('/:id', (req, res) => {
