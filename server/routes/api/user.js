@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
+
 const User = require('../../models/user');
-const bcrypt = require('bcrypt');
+const Book = require('../../models/book');
+
+const auth = require('../../middleware/auth');
 
 // @route   POST /api/user/register
 // @desc    Post - Register a new User
@@ -69,6 +72,26 @@ router.get('/reviewer/:id', (req, res) => {
       name: doc.name,
       lastname: doc.lastname,
     });
+  });
+});
+
+// @route   GET /api/user/posts/:userId
+// @desc    Get all Posts of an User by it's ID
+// @access  Public/Private
+router.get('/posts/:userId', (req, res) => {
+  Book.find({ ownerId: req.params.userId }).exec((err, docs) => {
+    if (err) return res.status(400).send(err);
+    res.send(docs);
+  });
+});
+
+// @route   GET /api/user/logout
+// @desc    Logout an User
+// @access  Public/Private
+router.get('/logout', auth, (req, res) => {
+  req.user.deleteToken(req.token, (err, user) => {
+    if (err) return res.status(400).send(err);
+    res.sendStatus(200);
   });
 });
 
