@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Book = require('../../models/book');
+const { check, validationResult } = require('express-validator');
 
 // @route   Get /api/book/:id = Eg: /api/book/5eead67b15a2cd314fa572a1
 // @desc    Get a book by Id
@@ -15,7 +16,7 @@ router.get('/:id', (req, res) => {
 });
 
 // @route   Get /api/books
-// @desc    Get a book by Id
+// @desc    Get Books
 // @access  Public/Private
 router.get('/', (req, res) => {
   // locahost:3001/api/books?skip=0&limit=5&order=asc
@@ -37,37 +38,62 @@ router.get('/', (req, res) => {
 // @route   POST /api/book
 // @desc    POST a book
 // @access  Public/Private
-router.post('/', (req, res) => {
-  const book = new Book(req.body);
+router.post(
+  '/',
+  [
+    check('name', 'Name is required').not().isEmpty(),
+    check('author', 'Author is required').not().isEmpty(),
+    check('review', 'Review is required').not().isEmpty(),
+  ],
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ erros: errors.array() });
+    }
 
-  book.save((err, doc) => {
-    if (err) return res.status(400).send(err);
+    const book = new Book(req.body);
 
-    res.status(200).json({
-      post: true,
-      bookId: doc._id,
+    book.save((err, doc) => {
+      if (err) return res.status(400).send(err);
+
+      res.status(200).json({
+        post: true,
+        bookId: doc._id,
+      });
     });
-  });
-});
+  }
+);
 
 // @route   POST /api/book/update
 // @desc    UPDATE a book
 // @access  Public/Private
-router.post('/update', (req, res) => {
-  Book.findByIdAndUpdate(
-    req.body._id,
-    req.body,
-    { new: true },
-    // { useFindAndModify: true },
-    (err, doc) => {
-      if (err) return res.status(400).send(err);
-      res.json({
-        success: true,
-        doc,
-      });
+router.post(
+  '/update',
+  [
+    check('name', 'Name is required').not().isEmpty(),
+    check('author', 'Author is required').not().isEmpty(),
+    check('review', 'Review is required').not().isEmpty(),
+  ],
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ erros: errors.array() });
     }
-  );
-});
+    Book.findByIdAndUpdate(
+      req.body._id,
+      req.body,
+      { new: true },
+      // { useFindAndModify: true },
+      (err, doc) => {
+        if (err) return res.status(400).send(err);
+        res.json({
+          success: true,
+          doc,
+        });
+      }
+    );
+  }
+);
 
 // @route   DELETE /api/book/:id
 // @desc    DELETE a book

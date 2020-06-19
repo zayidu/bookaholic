@@ -5,50 +5,86 @@ const User = require('../../models/user');
 const Book = require('../../models/book');
 
 const auth = require('../../middleware/auth');
+const { check, validationResult } = require('express-validator');
 
 // @route   POST /api/user/register
 // @desc    Post - Register a new User
 // @access  Public/Private
-router.post('/register', (req, res) => {
-  const user = new User(req.body);
-  user.save((err, doc) => {
-    if (err) return res.json({ success: false });
-    res.status(200).json({
-      success: true,
-      user: doc,
+router.post(
+  '/register',
+
+  [
+    check('name', 'Name is required').not().isEmpty(),
+    check('email', 'Please enter a valid email').isEmail(),
+    check(
+      'password',
+      'Please enter a password of 6 or more characters'
+    ).isLength({ min: 6 }),
+  ],
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ erros: errors.array() });
+    }
+    User.findOne({ email: req.body.email }).then((user) => {
+      if (user) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'User already exists!' }] });
+      } else {
+        const user = new User(req.body);
+        user.save((err, doc) => {
+          if (err) return res.json({ success: false });
+          res.status(200).json({
+            success: true,
+            user: doc,
+          });
+        });
+      }
     });
-  });
-});
+  }
+);
 
 // @route   GET /api/user/login
 // @desc    Login a User
 // @access  Public/Private
-router.get('/login', (req, res) => {
-  User.findOne({ email: req.body.email }, (err, user) => {
-    if (!user)
-      return res.json({
-        isAuth: false,
-        message: 'Invalid Credentials',
-      });
-    // Compare
-    user.comparePassword(req.body.password, (err, isMatch) => {
-      if (!isMatch)
+router.get(
+  '/login',
+  [
+    check('email', 'Please enter a valid email').isEmail(),
+    check('password', 'Please enter the password').not().isEmpty(),
+  ],
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ erros: errors.array() });
+    }
+    User.findOne({ email: req.body.email }, (err, user) => {
+      if (!user)
         return res.json({
           isAuth: false,
           message: 'Invalid Credentials',
         });
-      // Sign() - Token
-      user.generateToken((err, user) => {
-        if (err) return res.status(400).send(err);
-        res.cookie('auth', user.token).json({
-          isAuth: true,
-          id: user._id,
-          email: user.email,
+      // Compare
+      user.comparePassword(req.body.password, (err, isMatch) => {
+        if (!isMatch)
+          return res.json({
+            isAuth: false,
+            message: 'Invalid Credentials',
+          });
+        // Sign() - Token
+        user.generateToken((err, user) => {
+          if (err) return res.status(400).send(err);
+          res.cookie('auth', user.token).json({
+            isAuth: true,
+            id: user._id,
+            email: user.email,
+          });
         });
       });
     });
-  });
-});
+  }
+);
 
 // @route   GET /api/users
 // @desc    Get all Users
