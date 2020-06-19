@@ -24,7 +24,7 @@ router.post(
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ erros: errors.array() });
+      return res.status(400).json({ message: errors.array()[0].msg });
     }
     User.findOne({ email: req.body.email }).then((user) => {
       if (user) {
@@ -48,7 +48,7 @@ router.post(
 // @route   GET /api/user/login
 // @desc    Login a User
 // @access  Public/Private
-router.get(
+router.post(
   '/login',
   [
     check('email', 'Please enter a valid email').isEmail(),
@@ -57,7 +57,7 @@ router.get(
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ erros: errors.array() });
+      return res.status(400).json({ message: errors.array()[0].msg });
     }
     User.findOne({ email: req.body.email }, (err, user) => {
       if (!user)

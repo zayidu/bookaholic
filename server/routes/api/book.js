@@ -44,11 +44,12 @@ router.post(
     check('name', 'Name is required').not().isEmpty(),
     check('author', 'Author is required').not().isEmpty(),
     check('review', 'Review is required').not().isEmpty(),
+    check('rating', 'Rating is required').not().isEmpty(),
   ],
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ erros: errors.array() });
+      return res.status(400).json({ message: errors.array()[0].msg });
     }
 
     const book = new Book(req.body);

@@ -10,6 +10,9 @@ const app = express();
 
 // Connect Database MongoDB Atlas
 connectDB();
+// Start the community Server
+// ./mongod --dbpath ~/mongo-data
+// mongo
 
 // const { User } = require('./models/user');
 // const { Book } = require('./models/book');
