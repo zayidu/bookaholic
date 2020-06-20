@@ -4,11 +4,10 @@
 Bookaholic is a Mobile App for Book Lovers wherein they can review their favorite books.
 
 📣📣📣 One more Prototype Project! 📣📣📣
+
 This is actually a course driven Project. 
 https://fierce-brook-03104.herokuapp.com
-
 Check out with the below link! [Best if viewed on Mobile]
-https://lnkd.in/dusad58
 You can Guest Login and check them using below Guest credentials:
 id: guest@zayidu.com
 password: guest123
