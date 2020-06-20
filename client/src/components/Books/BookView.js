@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  getBooksWithReviewer,
+  getBookWithReviewer,
   clearBooksWithReviewer,
 } from '../../actions/index';
 
 class BookView extends Component {
   componentWillMount() {
-    this.props.dispatch(getBooksWithReviewer(this.props.match.params.id));
+    this.props.dispatch(getBookWithReviewer(this.props.match.params.id));
   }
 
   componentWillUnmount() {
