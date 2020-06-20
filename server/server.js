@@ -46,7 +46,7 @@ app.use('/api/auth', require('./routes/api/auth'));
 // IN Production, Except the routes above, Routing the UI routes and anyother routes that isn't above will be routed to index.html as below:
 if (process.env.NODE_ENV === 'production') {
   const path = require('path');
-  app.get('*', (req, res) => {
+  app.get('/*', (req, res) => {
     res.sendfile(path.resolve(__dirname, '../client', 'build', 'index.html'));
   });
 }
