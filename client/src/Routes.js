@@ -6,7 +6,7 @@ import Layout from './hoc/Layout';
 import BookView from './components/Books/BookView';
 import Login from './containers/Admin/Login';
 import AddBookReview from './containers/Admin/AddBookReview';
-// import EditBookReview from './containers/Admin/EditBookReview';
+import EditBookReview from './containers/Admin/EditBookReview';
 import UserPosts from './components/Admin/UserPosts';
 import Auth from './hoc/Auth';
 import User from './components/Admin/User';
@@ -24,10 +24,10 @@ const Routes = () => {
         {/* Private Route */}
         <Route path="/user/add" exact component={Auth(AddBookReview, true)} />
         {/* Private Route */}
-        {/* <Route
+        <Route
           path="/user/edit-post/:id"
           exact
-          component={Auth(EditBookReview, true)} */}
+          component={Auth(EditBookReview, true)}
         />
         {/* Private Route */}
         <Route

@@ -70,6 +70,7 @@ export function clearNewBook() {
 }
 
 export function getBook(id) {
+  // debugger;
   const request = axios
     .get(`/api/book/${id}`)
     .then((response) => response.data);
