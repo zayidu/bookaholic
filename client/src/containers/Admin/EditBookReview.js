@@ -48,7 +48,7 @@ class EditBookReview extends PureComponent {
   componentWillReceiveProps(nextProps) {
     // debugger;
     let book = nextProps.books.book;
-    console.log(book);
+    // console.log(book);
     if (book) {
       // console.log(book._id);
       this.setState({

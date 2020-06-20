@@ -183,6 +183,11 @@ header .navItem span {
   margin-top: 20px;
   width: 260px;
 }
+
+.registerButton {
+  margin-bottom: 20px;
+}
+
 .rl_container.article button {
   width: 80%;
 }

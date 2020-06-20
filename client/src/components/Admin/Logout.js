@@ -5,7 +5,7 @@ const Logout = (props) => {
   axios.get(`/api/user/logout`).then((request) => {
     setTimeout(() => {
       props.history.push('/');
-    }, 2000);
+    }, 1500);
   });
 
   return (

@@ -59,7 +59,7 @@ export class AddBookReview extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
+    // console.log(nextProps);
     if (nextProps.books.newbook) {
       if (!nextProps.books.newbook.post) {
         if (nextProps.books.newbook.message) {
