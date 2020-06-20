@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { addBook, clearNewBook } from '../../actions';
 
-export class AddBookReview extends Component {
+export class AddBookReview extends PureComponent {
   static propTypes = {
     prop: PropTypes,
   };
@@ -18,6 +18,7 @@ export class AddBookReview extends Component {
       rating: '',
       price: '',
     },
+    error: '',
   };
 
   handleInput = (event, name) => {
@@ -33,6 +34,8 @@ export class AddBookReview extends Component {
 
   submitForm = (e) => {
     e.preventDefault();
+    this.setState({ error: '' });
+
     this.props.dispatch(
       addBook({
         ...this.state.formdata,
@@ -53,6 +56,20 @@ export class AddBookReview extends Component {
 
   componentWillUnmount() {
     this.props.dispatch(clearNewBook());
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    if (nextProps.books.newbook) {
+      if (!nextProps.books.newbook.post) {
+        if (nextProps.books.newbook.message) {
+          this.setState({ error: nextProps.books.newbook.message });
+        }
+        // else {
+        //   this.setState({ error: 'Error,try again.' });
+        // }
+      }
+    }
   }
 
   render() {
@@ -120,6 +137,8 @@ export class AddBookReview extends Component {
           </div>
 
           <button type="submit">Add review</button>
+
+          <div className="error"> {this.state.error}</div>
 
           {this.props.books.newbook
             ? this.showNewBook(this.props.books.newbook)

@@ -167,7 +167,7 @@ export function userRegister(user, userList) {
   debugger;
   return (dispatch) => {
     request.then(({ data }) => {
-      debugger;
+      // debugger;
       let users = data.success ? [...userList, data.user] : userList;
       let response = {
         success: data.success,
