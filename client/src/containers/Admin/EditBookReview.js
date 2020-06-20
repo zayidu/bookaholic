@@ -49,7 +49,7 @@ class EditBookReview extends PureComponent {
     // debugger;
     let book = nextProps.books.book;
     console.log(book);
-    if (book._id) {
+    if (book) {
       // console.log(book._id);
       this.setState({
         formdata: {
