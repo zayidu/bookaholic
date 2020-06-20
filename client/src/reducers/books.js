@@ -35,7 +35,7 @@ export default function (state = {}, action) {
       return {
         ...state,
         updateBook: action.payload.updateBook,
-        book: action.payload.book,
+        book: null,
         postDeleted: action.payload.postDeleted,
       };
     default:
