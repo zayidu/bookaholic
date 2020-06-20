@@ -65,6 +65,15 @@ class Login extends Component {
             {user.login ? <div>{user.login.message}</div> : null}
           </div>
         </form>
+        <button
+          type="submit"
+          onClick={() => {
+            window.location.href =
+              'mailto:zayidu11@gmail.com?subject=Bookaholic Register User&body=Register%20Me';
+          }}
+        >
+          Register
+        </button>
       </div>
     );
   }
