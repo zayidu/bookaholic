@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import FontAwesome from 'react-fontawesome';
+import { connect } from 'react-redux';
 
-const SideNavItems = () => {
+const SideNavItems = ({ user }) => {
   const items = [
     {
       type: 'navItem',
@@ -65,13 +66,28 @@ const SideNavItems = () => {
     </div>
   );
 
-  const showItems = () => {
-    return items.map((item, i) => {
-      return element(item, i);
-    });
-  };
+  const showItems = () =>
+    user.login
+      ? items.map((item, i) => {
+          // Logged In Scenarios
+          if (user.login.isAuth) {
+            return !item.exclude
+              ? element(item, i)
+              : // Don't show Login Item, if Logged In
+                null;
+
+            // Not Logged In Scenarios
+          } else {
+            return !item.restricted ? element(item, i) : null;
+          }
+        })
+      : null;
 
   return <div> {showItems()} </div>;
 };
 
-export default SideNavItems;
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+
+export default connect(mapStateToProps)(SideNavItems);

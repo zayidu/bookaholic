@@ -121,7 +121,6 @@ export class AddBookReview extends Component {
 
           <button type="submit">Add review</button>
 
-          {/* Not Working - CHECK */}
           {this.props.books.newbook
             ? this.showNewBook(this.props.books.newbook)
             : null}

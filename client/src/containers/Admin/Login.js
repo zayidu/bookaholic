@@ -27,7 +27,7 @@ class Login extends Component {
     }
   }
   submitForm = (e) => {
-    console.log(this.state);
+    // console.log(this.state);
 
     e.preventDefault();
     this.props.dispatch(loginUser(this.state));
