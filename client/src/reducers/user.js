@@ -12,6 +12,7 @@ export default function (state = {}, action) {
       return {
         ...state,
         register: action.payload.success,
+        message: action.payload.message,
         users: action.payload.users,
       };
     default:

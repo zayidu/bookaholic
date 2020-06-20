@@ -7,9 +7,11 @@ import BookView from './components/Books/BookView';
 import Login from './containers/Admin/Login';
 import AddBookReview from './containers/Admin/AddBookReview';
 import EditBookReview from './containers/Admin/EditBookReview';
+import Register from './containers/Admin/Register';
 import UserPosts from './components/Admin/UserPosts';
 import Auth from './hoc/Auth';
 import User from './components/Admin/User';
+import Logout from './components/Admin/Logout';
 
 const Routes = () => {
   return (
@@ -20,6 +22,8 @@ const Routes = () => {
         {/* Public Route but Shouldn't come up for Logged In Users */}
         <Route path="/login" exact component={Auth(Login, false)} />
         {/* Private Route */}
+        <Route path="/user/logout" exact component={Auth(Logout, true)} />
+        {/* Private Route */}
         <Route path="/user" exact component={Auth(User, true)} />
         {/* Private Route */}
         <Route path="/user/add" exact component={Auth(AddBookReview, true)} />
@@ -29,6 +33,8 @@ const Routes = () => {
           exact
           component={Auth(EditBookReview, true)}
         />
+        {/* Private Route */}
+        <Route path="/user/register" exact component={Auth(Register, true)} />
         {/* Private Route */}
         <Route
           path="/user/user-reviews"

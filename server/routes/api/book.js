@@ -49,7 +49,9 @@ router.post(
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ message: errors.array()[0].msg });
+      return res
+        .status(400)
+        .json({ post: false, message: errors.array()[0].msg });
     }
 
     const book = new Book(req.body);
@@ -78,7 +80,7 @@ router.post(
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ erros: errors.array() });
+      return res.status(400).json({ success: false, erros: errors.array() });
     }
     Book.findByIdAndUpdate(
       req.body._id,

@@ -24,13 +24,28 @@ router.post(
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ message: errors.array()[0].msg });
+      return (
+        res
+          // .status(401)
+          .json(
+            // ({ success: false })
+            { success: false, message: errors.array()[0].msg }
+          )
+      );
     }
     User.findOne({ email: req.body.email }).then((user) => {
       if (user) {
-        return res
-          .status(400)
-          .json({ errors: [{ msg: 'User already exists!' }] });
+        return (
+          res
+            // .status(401)
+            .json(
+              // ({ success: false })
+              {
+                success: false,
+                message: 'User already exists!',
+              }
+            )
+        );
       } else {
         const user = new User(req.body);
         user.save((err, doc) => {
@@ -57,7 +72,11 @@ router.post(
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ message: errors.array()[0].msg });
+      return (
+        res
+          // .status(400)
+          .json({ isAuth: false, message: errors.array()[0].msg })
+      );
     }
     User.findOne({ email: req.body.email }, (err, user) => {
       if (!user)

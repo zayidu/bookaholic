@@ -152,3 +152,33 @@ export function getUserPosts(userId) {
     payload: request,
   };
 }
+
+export function getUsers() {
+  const request = axios.get(`/api/users`).then((response) => response.data);
+
+  return {
+    type: 'GET_USER',
+    payload: request,
+  };
+}
+
+export function userRegister(user, userList) {
+  const request = axios.post(`/api/user/register`, user);
+  debugger;
+  return (dispatch) => {
+    request.then(({ data }) => {
+      debugger;
+      let users = data.success ? [...userList, data.user] : userList;
+      let response = {
+        success: data.success,
+        message: data.message,
+        users,
+      };
+
+      dispatch({
+        type: 'USER_REGISTER',
+        payload: response,
+      });
+    });
+  };
+}
